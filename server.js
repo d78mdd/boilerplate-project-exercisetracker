@@ -36,9 +36,11 @@ app.get('/', (req, res) => {
 
 const myDataSchema = new mongoose.Schema({
 	name: String,
-  description: String,
-  duration: Number,
-  date: String
+  exercises: [{
+    description: String,
+    duration: Number,
+    date: { type: Date, default: Date.now }
+  }]
 });
 const myData = mongoose.model('myData', myDataSchema);
 
@@ -91,33 +93,46 @@ myData.find(function(err,data){
 
 
 // readme point 3
-// exercises thing should be an array?
 app.post("/api/exercise/add", function(req, res){
   myData.findById(req.body._id, function(err, data){
 
     //console.log(data)
     
-    data.description = req.body.description
-    data.duration = req.body.duration
-    data.date = req.body.date
-
-    if ( !data.date ) {
-      data.date = new Date()
-    }
+    let obj = {}
+    obj.description = req.body.description
+    obj.duration = req.body.duration
+    if (req.body.date)
+      obj.date = req.body.date
+    data.exercises.push(obj)
 
     data.save(function(err, data){console.log("saved")})
     
     let result = {
       _id: data._id,
       name: data.name,
-      description: data.description,
-      duration: data.duration,
-      date: data.duration
+      exercises: [obj]
     }
     console.log(result)
     res.json(result)
     
   })
+})
+
+
+// readme point 4 + 5
+app.get("/api/exercise/log/", function(req, res){
+/*
+  myData.findById(req.query.userId).gt('exercises.date', req.query.from).lt('exercises.date', req.query.to).limit(req.query.limit).exec(function(err, data){
+    console.log(data)
+    res.json(data)
+  })
+*/
+
+  myData.findById(req.query.userId).exec(function(err, data){
+    console.log(new Date(req.query.from))
+    res.json(new Date(req.query.from))
+  })
+
 })
 
 
