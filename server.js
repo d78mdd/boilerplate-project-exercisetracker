@@ -129,6 +129,9 @@ app.get("/api/exercise/log/", function(req, res){
 */
 
   myData.findById(req.query.userId).exec(function(err, data){
+
+    
+
     console.log(new Date(req.query.from))
     res.json(new Date(req.query.from))
   })
