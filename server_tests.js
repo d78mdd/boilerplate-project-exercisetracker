@@ -30,30 +30,36 @@ app.get('/', (req, res) => {
 
 
 /*
-const myData3Schema = new mongoose.Schema({
+const myData8Schema = new mongoose.Schema({
 	number: Number
 });
-const myData3 = mongoose.model('myData3', myData3Schema);
+const myData8 = mongoose.model('myData8', myData8Schema);
 */
 
-const myData3Schema = new mongoose.Schema({
+const myData8Schema = new mongoose.Schema({
 	name: {type: String, default: "anon" },
   exercises: [{
     description: { type: String, default: "short one" },
-    
     duration: { type: Number, default: 10 },
     date: { type: Date, default: Date.now }
   }]
-}, { minimize: false });
-const myData3 = mongoose.model('myData3', myData3Schema);
+});
+const myData8 = mongoose.model('myData8', myData8Schema);
 
 
 
+
+
+myData8.find()
+    .select('name _id')
+    .exec(function(err, data) {
+			console.log(data);
+});
 
 app.post('/api/exercise/new-user', function(req, res) {
 	let result = {};
 
-	const datum1 = new myData3({
+	const datum1 = new myData8({
     //name: req.body.username,
     name: req.body.username || undefined,
     exercises: {
@@ -66,39 +72,77 @@ app.post('/api/exercise/new-user', function(req, res) {
 	datum1.save(function(err, data) {
 		console.log('saved');
 
-		myData3.find( function(err, data) {
+  // output on the console and page
+		myData8.find()
+    .select('-_id -__v -exercises._id')
+    .exec(function(err, data) {
 			console.log(data);
-			//result._id = data[0]._id;
-			//result.name = data[0].name;
-			//console.log(result);
 		  res.json(data);
 		});
 	});
 });
 
+
 app.post("/api/exercise/add", function(req, res){
-  myData3.findById(req.body._id, function(err, data){   // findOneAndUpdate() instead ?
+  
+  if ( !req.body._id ) {
+    myData8.find(function(err,data){
+       
+      let lastIndex = data.length-1
+      let lastObject = new myData8(data[lastIndex])
+      
+      console.log("no ID provided, adding to the last one -" , lastObject._id)
 
-    //console.log(data)
-    
-    let obj = {}
-    obj.description = req.body.description
-    obj.duration = req.body.duration
-    if (req.body.date)
-      obj.date = req.body.date
-    data.exercises.push(obj)
+      add(lastObject._id)
+    })
+  } else {
 
-    data.save(function(err, data){console.log("saved")})
+    add(req.body._id)
+  }
+ 
+  function add(id){
     
-    let result = {
-      _id: data._id,
-      name: data.name,
-      exercises: [obj]
-    }
-    console.log(result)
-    res.json(result)
-    
-  })
+    myData8.findById(id, function(err, data1){
+
+
+      //console.log(data1)
+
+      let exercise = {
+        description: req.body.description || undefined,
+        duration: req.body.duration || undefined,
+      }
+      if (req.body.date) {
+        exercise.date = new Date(req.body.date)
+      } else {
+        exercise.date = undefined
+      }
+
+      data1.exercises.push(exercise)
+
+      
+
+      data1.save(function(err, data){
+
+        // output on the console and page
+        myData8.find()
+        .select('-_id -__v -exercises._id')
+        .exec(function(err, data) {
+
+          myData8.find({name: data1.name})
+          .exec(function(err, data) {
+            console.log(data[0].exercises)
+          })
+
+          res.json(data);
+        })
+        
+      })
+    })
+  
+  }
+  
+
+
 })
 
 
@@ -109,43 +153,77 @@ app.post("/api/exercise/add", function(req, res){
 
 
 app.post("/api/exercise/log/", function(req, res){
-  /*
-  myData3.findById(req.query.userId).gt('exercises.date', req.query.from).lt('exercises.date', req.query.to).limit(req.query.limit).exec(function(err, data){
-    console.log(data)
-    res.json(data)
+  
+  myData8.findById(req.body._id)
+  //.gt('exercises.date', req.body.from)
+  //.lt('exercises.date', req.body.to)
+  //.limit(req.body.limit)
+  .exec(function(err, data){
+
+    //console.log(req.body.from, req.body.to, req.body.limit)
+
+    let result = []
+
+    let startD = new Date(req.body.from)
+    let endD = new Date(req.body.to)
+
+    let size = data.exercises.length
+    let limit = req.body.limit
+
+    console.log(result , startD, endD, size, limit)
+
+
+    for ( let i=0; i<size; i++ ){
+
+      let date = data.exercises[i].date
+
+      console.log(i, date, date>startD && date<endD)
+
+      //if ( startID && endID ) {
+        //result.push(data.exercises[i])
+      //}
+
+    }
+
+
+
+    //console.log(result)
+    //res.json(result)
   })
-  */
+  
 
   /*
-  let n1 = new myData3({number:Number(req.body.username)})
+  let n1 = new myData8({number:Number(req.body.username)})
   n1.save(function(err, data) {
 		console.log('saved')
     console.log(data)
   })*/
 
-  //myData3.find(function(err,data){console.log(data)})
+  //myData8.find(function(err,data){console.log(data)})
 
-  //myData3.find().gt('number','45').exec(function(err,data){console.log(data)})
+  //myData8.find().gt('number','45').exec(function(err,data){console.log(data)})
 
 
   /*
-  let d1 = new myData3({date:new Date(req.body.username)})
+  let d1 = new myData8({date:new Date(req.body.username)})
   d1.save(function(err, data) {
 		console.log('saved')
     console.log(data)
   })*/
 
-  myData3.find(function(err,data){console.log(data)})
 
-  //myData3.find().gt('date','2014-07-25').exec(function(err,data){console.log(data)})
-
-  //myData3.find().gt('date','2014-07-25').lt('date','2014-08-03').limit(3).exec(function(err,data){console.log(data)})
+  //myData8.find(function(err,data){console.log(data)})
 
 
-  //myData3.find({name:'d78mdd'},function(err,data){console.log(data)})
+  //myData8.find().gt('date','2014-07-25').exec(function(err,data){console.log(data)})
+
+  //myData8.find().gt('date','2014-07-25').lt('date','2014-08-03').limit(3).exec(function(err,data){console.log(data)})
+
+
+  //myData8.find({name:'d78mdd'},function(err,data){console.log(data)})
 
   /*
-  let d2 = new myData3()
+  let d2 = new myData8()
   d2.exercises.push(5)
   console.log(d2)
   console.log(d2.exercises)
@@ -155,7 +233,7 @@ app.post("/api/exercise/log/", function(req, res){
   })*/
 
 
-  //  myData3.findById(req.body._id  /*"5f563b07ba4d6803a7ca582e"*/ , function(err,data){
+  //  myData8.findById(req.body._id  /*"5f563b07ba4d6803a7ca582e"*/ , function(err,data){
   //  console.log(req.body)
   //  console.log(data)
   //  console.log(data.exercises)
@@ -175,8 +253,9 @@ app.post("/api/exercise/log/", function(req, res){
 
 
 const listener = app.listen(process.env.PORT || 3000, () => {
-	console.log('Your app is listening on port ' + listener.address().port);
+	console.log('app listening on ' + listener.address().port);
 });
+
 
 
 
