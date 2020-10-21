@@ -128,7 +128,7 @@ app.post("/api/exercise/add", function(req, res){
         .select('-_id -__v -exercises._id')
         .exec(function(err, data) {
 
-          myData8.find({name: data1.name})
+          myData8.find({_id: data1._id})
           .exec(function(err, data) {
             console.log(data[0].exercises)
           })
@@ -154,129 +154,84 @@ app.post("/api/exercise/add", function(req, res){
 
 app.post("/api/exercise/log/", function(req, res){
   
-  myData8.findById(req.body._id)
-  //.gt('exercises.date', req.body.from)
-  //.lt('exercises.date', req.body.to)
-  //.limit(req.body.limit)
-  .exec(function(err, data){
+  if (!req.body._id ) {
+    let errMsg = "invalid id" 
 
-    //console.log(req.body.from, req.body.to, req.body.limit)
+    console.log(errMsg)
+    res.json(errMsg)
+    
+  } else {
+    log()
+  }
 
-    let resultTemp = []
-    let result = []
+  function log (){
+    
+    myData8.findById(req.body._id)
+    .exec(function(err, data){
 
-    let startD = new Date(req.body.from)
-    let endD = new Date(req.body.to)
+      //console.log(req.body.from, req.body.to, req.body.limit)
 
-    let fromOk  =  startD != "Invalid Date"
-    let toOk  =  endD != "Invalid Date"
+      let resultTemp = []
+      let result = []
 
-    let size = data.exercises.length
-    let limit = Number(req.body.limit)   // make sure it's a number
+      let startD = new Date(req.body.from)
+      let endD = new Date(req.body.to)
 
-    //console.log(resultTemp , startD, endD, size, limit)
+      let fromOk  =  startD != "Invalid Date"
+      let toOk  =  endD != "Invalid Date"
 
-    //filter according to 'from' and 'to'
-    for ( let i=0; i<size; i++ ){
+      let size = data.exercises.length
+      let limit = Number(req.body.limit)   // make sure it's a number
 
-      let date = data.exercises[i].date
-      let ex = data.exercises[i]
+      //console.log(resultTemp , startD, endD, size, limit)
 
-      if ( fromOk  &&  !toOk ) {
-        if ( date > startD ) {
+      //filter according to 'from' and 'to'
+      for ( let i=0; i<size; i++ ){
+
+        let date = data.exercises[i].date
+        let ex = data.exercises[i]
+
+        if ( fromOk  &&  !toOk ) {
+          if ( date > startD ) {
+            resultTemp.push(ex)
+          }
+        } else if ( !fromOk  &&  toOk ) { 
+          if ( date < endD ) {
+            resultTemp.push(ex)
+          }
+        } else if ( fromOk  &&  toOk) {
+          if ( date>startD && date<endD ) {
+            resultTemp.push(ex)
+          }
+        } else if ( !fromOk  &&  !toOk ) {
           resultTemp.push(ex)
         }
-      } else if ( !fromOk  &&  toOk ) { 
-        if ( date < endD ) {
-          resultTemp.push(ex)
-        }
-      } else if ( fromOk  &&  toOk) {
-        if ( date>startD && date<endD ) {
-          resultTemp.push(ex)
-        }
-      } else if ( !fromOk  &&  !toOk ) {
-        resultTemp.push(ex)
+        //console.log(data.exercises[i].date - data.exercises[i+1].date)
       }
-      //console.log(data.exercises[i].date - data.exercises[i+1].date)
-    }
-    //console.log(resultTemp)
+      //console.log(resultTemp)
 
 
-    //sort ascending
-    resultTemp.sort((a,b)=>a.date-b.date)
-    //console.log(resultTemp)
+      //sort ascending
+      resultTemp.sort((a,b)=>a.date-b.date)
+      //console.log(resultTemp)
 
 
-    //limit from 0th to 'limit'th
-    if ( !!limit ) {    // if valid
-      for ( let i=0; i<limit; i++ ){
-        result.push(resultTemp[i])
+      //limit from 0th to 'limit'th
+      if ( !!limit ) {    // if valid
+        for ( let i=0; i<limit; i++ ){
+          result.push(resultTemp[i])
+        }
+      } else {          // if empty or invalid
+        result = [...resultTemp]
       }
-    } else {          // if empty or invalid
-      result = [...resultTemp]
-    }
-    console.log(result)
-    res.json(result)
+      console.log(result)
+      res.json(result)
 
-  })
+    })
   
-
-  /*
-  let n1 = new myData8({number:Number(req.body.username)})
-  n1.save(function(err, data) {
-		console.log('saved')
-    console.log(data)
-  })*/
-
-  //myData8.find(function(err,data){console.log(data)})
-
-  //myData8.find().gt('number','45').exec(function(err,data){console.log(data)})
-
-
-  /*
-  let d1 = new myData8({date:new Date(req.body.username)})
-  d1.save(function(err, data) {
-		console.log('saved')
-    console.log(data)
-  })*/
-
-
-  //myData8.find(function(err,data){console.log(data)})
-
-
-  //myData8.find().gt('date','2014-07-25').exec(function(err,data){console.log(data)})
-
-  //myData8.find().gt('date','2014-07-25').lt('date','2014-08-03').limit(3).exec(function(err,data){console.log(data)})
-
-
-  //myData8.find({name:'d78mdd'},function(err,data){console.log(data)})
-
-  /*
-  let d2 = new myData8()
-  d2.exercises.push(5)
-  console.log(d2)
-  console.log(d2.exercises)
-  d2.save(function(err, data) {
-  		console.log('saved')
-      console.log(data)
-  })*/
-
-
-  //  myData8.findById(req.body._id  /*"5f563b07ba4d6803a7ca582e"*/ , function(err,data){
-  //  console.log(req.body)
-  //  console.log(data)
-  //  console.log(data.exercises)
-  //
-  //
-  //})
-
-
-
-
+  }
 
 })
-
-
 
 
 
@@ -288,3 +243,17 @@ const listener = app.listen(process.env.PORT || 3000, () => {
 
 
 
+
+
+
+
+
+
+
+/*
+  TODO
+  todo1   (assuming "todo1 resides somewhere in the code")
+    ...
+  todo2
+    ...
+*/
