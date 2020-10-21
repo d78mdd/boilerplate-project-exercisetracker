@@ -137,9 +137,16 @@ app.post("/api/exercise/add", function(req, res){
 app.post("/api/exercise/log/", function(req, res){
   
   if (!req.body._id ) {
-    let errMsg = "missing id" 
+    let errMsg = "missing ID" 
 
     console.log(errMsg)
+    console.log("existing IDs:")
+    myData9.find()
+    .select('name _id')
+    .exec(function(err, data) {
+			console.log(data);
+    })
+
     res.json(errMsg)
 
   } else {
@@ -156,7 +163,7 @@ app.post("/api/exercise/log/", function(req, res){
     .exec(function(err, data){
 
       if (!data) {
-        let errMsg = "invalid id" 
+        let errMsg = "invalid ID" 
         console.log(errMsg)
         res.json(errMsg)
         return
@@ -210,13 +217,25 @@ app.post("/api/exercise/log/", function(req, res){
       //limit from 0th to 'limit'th
       if ( !!limit ) {    // if valid
         for ( let i=0; i<limit; i++ ){
-          result.push(resultTemp[i])
+          resultTemp2.push(resultTemp[i])
         }
       } else {          // if empty or invalid
-        result = [...resultTemp]
+        resultTemp2 = [...resultTemp]
       }
-      console.log(result)
-      res.json(result)
+
+      myData9.find({_id: data._id})
+      .select('-_id -__v -exercises._id')
+      .exec(function(err, data) {
+
+        let result = {
+          name: data[0].name,
+          exercises: [...data[0].exercises],
+          count: data[0].exercises.length
+        }
+        
+        console.log(result)
+        res.json(result)
+      })
 
     })
   
