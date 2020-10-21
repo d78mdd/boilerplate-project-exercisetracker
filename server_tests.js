@@ -162,6 +162,7 @@ app.post("/api/exercise/log/", function(req, res){
 
     //console.log(req.body.from, req.body.to, req.body.limit)
 
+    let resultTemp = []
     let result = []
 
     let startD = new Date(req.body.from)
@@ -171,9 +172,9 @@ app.post("/api/exercise/log/", function(req, res){
     let toOk  =  endD != "Invalid Date"
 
     let size = data.exercises.length
-    let limit = req.body.limit
+    let limit = Number(req.body.limit)   // make sure it's a number
 
-    //console.log(result , startD, endD, size, limit)
+    //console.log(resultTemp , startD, endD, size, limit)
 
     //filter according to 'from' and 'to'
     for ( let i=0; i<size; i++ ){
@@ -182,33 +183,39 @@ app.post("/api/exercise/log/", function(req, res){
 
       if ( fromOk  &&  !toOk ) {
         if ( date > startD ) {
-          result.push(date)
+          resultTemp.push(date)
         }
       } else if ( !fromOk  &&  toOk ) { 
         if ( date < endD ) {
-          result.push(date)
+          resultTemp.push(date)
         }
       } else if ( fromOk  &&  toOk) {
         if ( date>startD && date<endD ) {
-          result.push(date)
+          resultTemp.push(date)
         }
       } else if ( !fromOk  &&  !toOk ) {
-        result.push(date)
+        resultTemp.push(date)
       }
-
       //console.log(data.exercises[i].date - data.exercises[i+1].date)
     }
+    //console.log(resultTemp)
 
-    console.log(result)
 
-    
     //sort ascending
-    result.sort((a,b)=>a-b)
-    console.log(result)
+    resultTemp.sort((a,b)=>a-b)
+    console.log(resultTemp)
+
 
 
     //limit from 0th to 'limit'th
-
+    if ( !!limit ) {    // if valid
+      for ( let i=0; i<limit; i++ ){
+        result.push(resultTemp[i])
+      }
+    } else {          // if empty or invalid
+      result = [...resultTemp]
+    }
+    console.log(result)
 
 
     //console.log(result)
