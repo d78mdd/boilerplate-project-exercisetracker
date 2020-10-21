@@ -49,6 +49,21 @@ const myData9 = mongoose.model('myData9', myData9Schema);
 });*/
 
 
+app.get('/api/exercise/users', function(req, res) {
+	myData9.find(function(err, data) {
+		let result = []
+		for (let i = 0; i < data.length; i++) {
+			result[i] = {};
+			result[i]._id = data[i]._id;
+			result[i].name = data[i].name;
+      result[i].exercises = [...data[i].exercises]
+		}
+		console.log(result);
+		res.json(result);
+	});
+});
+
+
 app.post('/api/exercise/new-user', function(req, res) {
 	let result = {};
 
@@ -58,18 +73,18 @@ app.post('/api/exercise/new-user', function(req, res) {
       description: undefined,
       duration: undefined,
       date: undefined
-    }
-  });
+    } // there's probably no need to add an initial default exercise
+  })
 
 	datum1.save(function(err, data) {
 		console.log('saved');
 
-  // output on the console and page
-		myData9.find()
-    .select('-_id -__v -exercises._id')
+  // output
+		myData9.find({_id: data._id})
+    .select('-__v -exercises')
     .exec(function(err, data) {
-			console.log(data);
-		  res.json(data);
+			console.log(data[0]);
+		  res.json(data[0]);
 		});
 	});
 });
