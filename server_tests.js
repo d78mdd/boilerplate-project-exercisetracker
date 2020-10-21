@@ -180,21 +180,22 @@ app.post("/api/exercise/log/", function(req, res){
     for ( let i=0; i<size; i++ ){
 
       let date = data.exercises[i].date
+      let ex = data.exercises[i]
 
       if ( fromOk  &&  !toOk ) {
         if ( date > startD ) {
-          resultTemp.push(date)
+          resultTemp.push(ex)
         }
       } else if ( !fromOk  &&  toOk ) { 
         if ( date < endD ) {
-          resultTemp.push(date)
+          resultTemp.push(ex)
         }
       } else if ( fromOk  &&  toOk) {
         if ( date>startD && date<endD ) {
-          resultTemp.push(date)
+          resultTemp.push(ex)
         }
       } else if ( !fromOk  &&  !toOk ) {
-        resultTemp.push(date)
+        resultTemp.push(ex)
       }
       //console.log(data.exercises[i].date - data.exercises[i+1].date)
     }
@@ -202,9 +203,8 @@ app.post("/api/exercise/log/", function(req, res){
 
 
     //sort ascending
-    resultTemp.sort((a,b)=>a-b)
-    console.log(resultTemp)
-
+    resultTemp.sort((a,b)=>a.date-b.date)
+    //console.log(resultTemp)
 
 
     //limit from 0th to 'limit'th
@@ -216,10 +216,8 @@ app.post("/api/exercise/log/", function(req, res){
       result = [...resultTemp]
     }
     console.log(result)
+    res.json(result)
 
-
-    //console.log(result)
-    //res.json(result)
   })
   
 
