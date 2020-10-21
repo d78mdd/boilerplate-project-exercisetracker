@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 
-
+//db connection
 mongoose.connect(
 	process.env.MLAB_URI,
 	{ useNewUrlParser: true, useUnifiedTopology: true }
@@ -18,9 +18,10 @@ db.once('open', function() {
 });
 
 
-
+//parse req.body data
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 
 app.use(express.static('public'));
 app.get('/', (req, res) => {
@@ -28,15 +29,8 @@ app.get('/', (req, res) => {
 });
 
 
-
-/*
-const myData8Schema = new mongoose.Schema({
-	number: Number
-});
-const myData8 = mongoose.model('myData8', myData8Schema);
-*/
-
-const myData8Schema = new mongoose.Schema({
+//define schema and model
+const myData9Schema = new mongoose.Schema({
 	name: {type: String, default: "anon" },
   exercises: [{
     description: { type: String, default: "short one" },
@@ -44,23 +38,21 @@ const myData8Schema = new mongoose.Schema({
     date: { type: Date, default: Date.now }
   }]
 });
-const myData8 = mongoose.model('myData8', myData8Schema);
+const myData9 = mongoose.model('myData9', myData9Schema);
 
 
-
-
-
-myData8.find()
+//some initial output
+/*myData9.find()
     .select('name _id')
     .exec(function(err, data) {
 			console.log(data);
-});
+});*/
+
 
 app.post('/api/exercise/new-user', function(req, res) {
 	let result = {};
 
-	const datum1 = new myData8({
-    //name: req.body.username,
+	const datum1 = new myData9({
     name: req.body.username || undefined,
     exercises: {
       description: undefined,
@@ -73,7 +65,7 @@ app.post('/api/exercise/new-user', function(req, res) {
 		console.log('saved');
 
   // output on the console and page
-		myData8.find()
+		myData9.find()
     .select('-_id -__v -exercises._id')
     .exec(function(err, data) {
 			console.log(data);
@@ -86,10 +78,10 @@ app.post('/api/exercise/new-user', function(req, res) {
 app.post("/api/exercise/add", function(req, res){
   
   if ( !req.body._id ) {
-    myData8.find(function(err,data){
+    myData9.find(function(err,data){
        
       let lastIndex = data.length-1
-      let lastObject = new myData8(data[lastIndex])
+      let lastObject = new myData9(data[lastIndex])
       
       console.log("no ID provided, adding to the last one -" , lastObject._id)
 
@@ -102,8 +94,7 @@ app.post("/api/exercise/add", function(req, res){
  
   function add(id){
     
-    myData8.findById(id, function(err, data1){
-
+    myData9.findById(id, function(err, data1){
 
       //console.log(data1)
 
@@ -119,55 +110,57 @@ app.post("/api/exercise/add", function(req, res){
 
       data1.exercises.push(exercise)
 
-      
-
       data1.save(function(err, data){
 
-        // output on the console and page
-        myData8.find()
-        .select('-_id -__v -exercises._id')
+        myData9.find({_id: data1._id})
         .exec(function(err, data) {
 
-          myData8.find({_id: data1._id})
-          .exec(function(err, data) {
-            console.log(data[0].exercises)
-          })
+          let result = {
+            name: data[0].name,
+            exercises: [data[0].exercises[data[0].exercises.length-1]]  //the last one
+          }
 
-          //res.json(data);
+          console.log(result)
+          res.json(result)
+
+
         })
         
       })
     })
   
   }
-  
-
 
 })
-
-
-
-
-
-
 
 
 app.post("/api/exercise/log/", function(req, res){
   
   if (!req.body._id ) {
-    let errMsg = "invalid id" 
+    let errMsg = "missing id" 
 
     console.log(errMsg)
     res.json(errMsg)
-    
+
   } else {
     log()
+    /*myData9.findById(req.body._id)
+    .exec(function(err, data){
+      console.log(data, err)
+    })*/
   }
 
   function log (){
     
-    myData8.findById(req.body._id)
+    myData9.findById(req.body._id)
     .exec(function(err, data){
+
+      if (!data) {
+        let errMsg = "invalid id" 
+        console.log(errMsg)
+        res.json(errMsg)
+        return
+      }
 
       //console.log(req.body.from, req.body.to, req.body.limit)
 
@@ -210,11 +203,9 @@ app.post("/api/exercise/log/", function(req, res){
       }
       //console.log(resultTemp)
 
-
       //sort ascending
       resultTemp.sort((a,b)=>a.date-b.date)
       //console.log(resultTemp)
-
 
       //limit from 0th to 'limit'th
       if ( !!limit ) {    // if valid
@@ -234,18 +225,9 @@ app.post("/api/exercise/log/", function(req, res){
 })
 
 
-
-
 const listener = app.listen(process.env.PORT || 3000, () => {
 	console.log('app listening on ' + listener.address().port);
 });
-
-
-
-
-
-
-
 
 
 
