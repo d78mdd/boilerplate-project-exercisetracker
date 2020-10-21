@@ -133,7 +133,7 @@ app.post("/api/exercise/add", function(req, res){
             console.log(data[0].exercises)
           })
 
-          res.json(data);
+          //res.json(data);
         })
         
       })
@@ -167,23 +167,40 @@ app.post("/api/exercise/log/", function(req, res){
     let startD = new Date(req.body.from)
     let endD = new Date(req.body.to)
 
+    let fromOk  =  startD != "Invalid Date"
+    let toOk  =  endD != "Invalid Date"
+
     let size = data.exercises.length
     let limit = req.body.limit
 
     //console.log(result , startD, endD, size, limit)
 
     //filter according to 'from' and 'to'
-    for ( let i=0; i<size-1; i++ ){
+    for ( let i=0; i<size; i++ ){
 
       let date = data.exercises[i].date
-      if ( date>startD && date<endD ) {
-        //console.log(i, date)
+
+      if ( fromOk  &&  !toOk ) {
+        if ( date > startD ) {
+          result.push(date)
+        }
+      } else if ( !fromOk  &&  toOk ) { 
+        if ( date < endD ) {
+          result.push(date)
+        }
+      } else if ( fromOk  &&  toOk) {
+        if ( date>startD && date<endD ) {
+          result.push(date)
+        }
+      } else if ( !fromOk  &&  !toOk ) {
         result.push(date)
       }
 
       //console.log(data.exercises[i].date - data.exercises[i+1].date)
-
     }
+
+    console.log(result)
+
     
     //sort ascending
     result.sort((a,b)=>a-b)
