@@ -170,20 +170,27 @@ app.post("/api/exercise/log/", function(req, res){
     let size = data.exercises.length
     let limit = req.body.limit
 
-    console.log(result , startD, endD, size, limit)
+    //console.log(result , startD, endD, size, limit)
 
-
-    for ( let i=0; i<size; i++ ){
+    //filter according to 'from' and 'to'
+    for ( let i=0; i<size-1; i++ ){
 
       let date = data.exercises[i].date
+      if ( date>startD && date<endD ) {
+        //console.log(i, date)
+        result.push(date)
+      }
 
-      console.log(i, date, date>startD && date<endD)
-
-      //if ( startID && endID ) {
-        //result.push(data.exercises[i])
-      //}
+      //console.log(data.exercises[i].date - data.exercises[i+1].date)
 
     }
+    
+    //sort ascending
+    result.sort((a,b)=>a-b)
+    console.log(result)
+
+
+    //limit from 0th to 'limit'th
 
 
 
