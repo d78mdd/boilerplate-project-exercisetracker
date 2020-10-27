@@ -58,6 +58,9 @@ const myData10 = mongoose.model('myData10', myData10Schema);
 
 
 app.get('/api/exercise/users', function(req, res) {
+  console.log("method:" , req.method)
+  console.log("path: /api/exercise/users")
+  
 	myData10.find(function(err, data) {
 		let result = []
 		for (let i = 0; i < data.length; i++) {
@@ -73,6 +76,10 @@ app.get('/api/exercise/users', function(req, res) {
 
 
 app.post('/api/exercise/new-user', function(req, res) {
+  console.log("method: " , req.method)
+  console.log("path: /api/exercise/new-user")
+  console.log("req.body: " , req.body)
+
 	let result = {};
 
 	const datum1 = new myData10({
@@ -99,8 +106,11 @@ app.post('/api/exercise/new-user', function(req, res) {
 
 
 app.post("/api/exercise/add", function(req, res){
-  
-  if ( !req.body._id ) {
+  console.log("method: " , req.method)
+  console.log("path: /api/exercise/add")  
+  console.log("req.body: " , req.body)
+
+  if ( !req.body.userId ) {
     myData10.find(function(err,data){
        
       let lastIndex = data.length-1
@@ -112,7 +122,7 @@ app.post("/api/exercise/add", function(req, res){
     })
   } else {
 
-    add(req.body._id)
+    add(req.body.userId)
   }
  
   function add(id){
@@ -162,8 +172,12 @@ app.post("/api/exercise/add", function(req, res){
 
 
 
+/*
+app.post("/api/exercise/log/", function(req, res){
 
-app.post("/api/exercise/log/", function(req, res){   //todo1
+  console.log("method: " , req.method)
+  console.log("path: /api/exercise/log/")  
+  console.log("req.query: " , req.body)
   
   if (!req.body._id ) {
     let errMsg = "missing ID"
@@ -180,10 +194,10 @@ app.post("/api/exercise/log/", function(req, res){   //todo1
 
   } else {
     log()
-    /*myData10.findById(req.body._id)
-    .exec(function(err, data){
-      console.log(data, err)
-    })*/
+    //myData10.findById(req.body._id)
+    //.exec(function(err, data){
+    //  console.log(data, err)
+    })
   }
 
   function log (){
@@ -275,7 +289,7 @@ app.post("/api/exercise/log/", function(req, res){   //todo1
   
   }
 
-})
+})*/
 
 
 app.get("/api/exercise/log/", function(req, res){
@@ -283,7 +297,10 @@ app.get("/api/exercise/log/", function(req, res){
   
   //https://boilerplate-project-exercisetracker-2.d78mdd.repl.co/api/exercise/log?userId=5f90549c49fad607102d57f4
   //https://boilerplate-project-exercisetracker-2.d78mdd.repl.co/api/exercise/log?userId=5f90549c49fad607102d57f4&from=2017-01-01&to=2019-12-12
-  console.log(req.query.userId)
+
+  console.log("method: " , req.method)
+  console.log("path: /api/exercise/log/")  
+  console.log("req.query: " , req.query)
 
   if (!req.query.userId ) {
     let errMsg = "missing ID"
@@ -383,7 +400,8 @@ app.get("/api/exercise/log/", function(req, res){
         result = {
           username: data.username,
           exercises: [...resultTemp2],
-          count: size
+          count: data.exercises.length
+          //count: size
         }
         
         console.log(result)
@@ -436,8 +454,7 @@ const listener = app.listen(process.env.PORT || 3000, () => {
 
 /*
   TODO
-  todo1
-     app.get
+
   todo2
     make checks for limit, from, to
 */

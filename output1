@@ -1,0 +1,610 @@
+ npm start
+
+> fcc-exercise-tracker@0.1.0 start /home/runner/boilerplate-project-exercisetracker-2
+> node server_1.js
+
+app listening on 3000
+connected yay
+saved
+{ username: 'fcc_test_16037873562', _id: 5f97da5f08a08f045fc2d487 }
+[
+  {
+    _id: 5f90549c49fad607102d57f4,
+    username: 'd7m',
+    exercises: [
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object]
+    ]
+  },
+  {
+    _id: 5f9054bd49fad607102d57f9,
+    username: 'fcc_test_16032943969',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f9054bd49fad607102d57fb,
+    username: 'fcc_test_16032943977',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f9054be49fad607102d57fd,
+    username: 'fcc_test_16032943981',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f9054be49fad607102d57ff,
+    username: 'fcc_test_16032943985',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90550a49fad607102d5801,
+    username: 'd7m',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552849fad607102d5803,
+    username: 'fcc_test_16032945047',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552949fad607102d5805,
+    username: 'fcc_test_16032945057',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552a49fad607102d5807,
+    username: 'fcc_test_16032945061',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552a49fad607102d5809,
+    username: 'fcc_test_16032945065',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552d49fad607102d580b,
+    username: 'fcc_test_16032945096',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552f49fad607102d580d,
+    username: 'fcc_test_16032945108',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552f49fad607102d580f,
+    username: 'fcc_test_16032945112',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552f49fad607102d5811,
+    username: 'fcc_test_16032945116',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905adea3d53e0778cd4533,
+    username: 'fcc_test_16032959661',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905adfa3d53e0778cd4535,
+    username: 'fcc_test_16032959669',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905adfa3d53e0778cd4537,
+    username: 'fcc_test_16032959674',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905ae1a3d53e0778cd4539,
+    username: 'fcc_test_16032959692',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905c39a3d53e0778cd453b,
+    username: 'fcc_test_16032963136',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905c3ba3d53e0778cd453d,
+    username: 'fcc_test_16032963154',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905c491ae55207bbe24d18,
+    username: 'fcc_test_16032963289',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905c4a1ae55207bbe24d1a,
+    username: 'fcc_test_16032963298',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f905c4b1ae55207bbe24d1f,
+    username: 'fcc_test_16032963311',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f905c4c1ae55207bbe24d24,
+    username: 'fcc_test_16032963323',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f905e5588d2ed0814ec3423,
+    username: 'fcc_test_16032968537',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905e5788d2ed0814ec3425,
+    username: 'fcc_test_16032968554',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f905e5988d2ed0814ec342a,
+    username: 'fcc_test_16032968568',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f905e5a88d2ed0814ec342f,
+    username: 'fcc_test_16032968584',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f905eb60604cd084b59eb05,
+    username: 'fcc_test_16032969506',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905eb70604cd084b59eb07,
+    username: 'fcc_test_16032969514',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f905eb80604cd084b59eb0c,
+    username: 'fcc_test_16032969526',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f905eba0604cd084b59eb11,
+    username: 'fcc_test_16032969540',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f906408cca28c00a92fa60a,
+    username: 'fcc_test_16032983119',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f906409cca28c00a92fa60c,
+    username: 'fcc_test_16032983129',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f90640acca28c00a92fa611,
+    username: 'fcc_test_16032983142',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f90640ccca28c00a92fa616,
+    username: 'fcc_test_16032983157',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f90ae026e85cd004a79b049,
+    username: 'fcc_test_16033172483',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90ae036e85cd004a79b04b,
+    username: 'fcc_test_16033172494',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f90ae046e85cd004a79b050,
+    username: 'fcc_test_16033172506',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f90ae066e85cd004a79b055,
+    username: 'fcc_test_16033172520',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f911350f1a1990085bca290,
+    username: 'fcc_test_16033431811',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f911351f1a1990085bca292,
+    username: 'fcc_test_16033431823',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f911352f1a1990085bca297,
+    username: 'fcc_test_16033431837',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f911354f1a1990085bca29c,
+    username: 'fcc_test_16033431853',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f973d9463ffcb0942596513,
+    username: 'anon',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f97da5f08a08f045fc2d487,
+    username: 'fcc_test_16037873562',
+    exercises: [ [Object] ]
+  }
+]
+saved
+{ username: 'fcc_test_16037873572', _id: 5f97da6008a08f045fc2d489 }
+no ID provided, adding to the last one - 5f97da6008a08f045fc2d489
+{
+  _id: 5f97da6008a08f045fc2d489,
+  username: 'fcc_test_16037873572',
+  description: 'test',
+  duration: 60,
+  date: 1990-01-01T00:00:00.000Z
+}
+saved
+{ username: 'fcc_test_16037873582', _id: 5f97da6108a08f045fc2d48e }
+no ID provided, adding to the last one - 5f97da6108a08f045fc2d48e
+{
+  _id: 5f97da6108a08f045fc2d48e,
+  username: 'fcc_test_16037873582',
+  description: 'test',
+  duration: 60,
+  date: 2020-10-27T08:29:22.186Z
+}
+5f97da6108a08f045fc2d48e
+{
+ npm start
+
+> fcc-exercise-tracker@0.1.0 start /home/runner/boilerplate-project-exercisetracker-2
+> node server_1.js
+
+app listening on 3000
+connected yay
+saved
+{ username: 'fcc_test_16037874963', _id: 5f97daebf1fa0604d02e0b84 }
+[
+  {
+    _id: 5f90549c49fad607102d57f4,
+    username: 'd7m',
+    exercises: [
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object]
+    ]
+  },
+  {
+    _id: 5f9054bd49fad607102d57f9,
+    username: 'fcc_test_16032943969',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f9054bd49fad607102d57fb,
+    username: 'fcc_test_16032943977',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f9054be49fad607102d57fd,
+    username: 'fcc_test_16032943981',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f9054be49fad607102d57ff,
+    username: 'fcc_test_16032943985',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90550a49fad607102d5801,
+    username: 'd7m',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552849fad607102d5803,
+    username: 'fcc_test_16032945047',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552949fad607102d5805,
+    username: 'fcc_test_16032945057',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552a49fad607102d5807,
+    username: 'fcc_test_16032945061',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552a49fad607102d5809,
+    username: 'fcc_test_16032945065',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552d49fad607102d580b,
+    username: 'fcc_test_16032945096',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552f49fad607102d580d,
+    username: 'fcc_test_16032945108',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552f49fad607102d580f,
+    username: 'fcc_test_16032945112',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90552f49fad607102d5811,
+    username: 'fcc_test_16032945116',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905adea3d53e0778cd4533,
+    username: 'fcc_test_16032959661',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905adfa3d53e0778cd4535,
+    username: 'fcc_test_16032959669',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905adfa3d53e0778cd4537,
+    username: 'fcc_test_16032959674',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905ae1a3d53e0778cd4539,
+    username: 'fcc_test_16032959692',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905c39a3d53e0778cd453b,
+    username: 'fcc_test_16032963136',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905c3ba3d53e0778cd453d,
+    username: 'fcc_test_16032963154',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905c491ae55207bbe24d18,
+    username: 'fcc_test_16032963289',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905c4a1ae55207bbe24d1a,
+    username: 'fcc_test_16032963298',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f905c4b1ae55207bbe24d1f,
+    username: 'fcc_test_16032963311',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f905c4c1ae55207bbe24d24,
+    username: 'fcc_test_16032963323',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f905e5588d2ed0814ec3423,
+    username: 'fcc_test_16032968537',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905e5788d2ed0814ec3425,
+    username: 'fcc_test_16032968554',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f905e5988d2ed0814ec342a,
+    username: 'fcc_test_16032968568',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f905e5a88d2ed0814ec342f,
+    username: 'fcc_test_16032968584',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f905eb60604cd084b59eb05,
+    username: 'fcc_test_16032969506',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f905eb70604cd084b59eb07,
+    username: 'fcc_test_16032969514',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f905eb80604cd084b59eb0c,
+    username: 'fcc_test_16032969526',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f905eba0604cd084b59eb11,
+    username: 'fcc_test_16032969540',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f906408cca28c00a92fa60a,
+    username: 'fcc_test_16032983119',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f906409cca28c00a92fa60c,
+    username: 'fcc_test_16032983129',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f90640acca28c00a92fa611,
+    username: 'fcc_test_16032983142',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f90640ccca28c00a92fa616,
+    username: 'fcc_test_16032983157',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f90ae026e85cd004a79b049,
+    username: 'fcc_test_16033172483',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f90ae036e85cd004a79b04b,
+    username: 'fcc_test_16033172494',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f90ae046e85cd004a79b050,
+    username: 'fcc_test_16033172506',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f90ae066e85cd004a79b055,
+    username: 'fcc_test_16033172520',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f911350f1a1990085bca290,
+    username: 'fcc_test_16033431811',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f911351f1a1990085bca292,
+    username: 'fcc_test_16033431823',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f911352f1a1990085bca297,
+    username: 'fcc_test_16033431837',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f911354f1a1990085bca29c,
+    username: 'fcc_test_16033431853',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f973d9463ffcb0942596513,
+    username: 'anon',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f97da5f08a08f045fc2d487,
+    username: 'fcc_test_16037873562',
+    exercises: [ [Object] ]
+  },
+  {
+    _id: 5f97da6008a08f045fc2d489,
+    username: 'fcc_test_16037873572',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f97da6108a08f045fc2d48e,
+    username: 'fcc_test_16037873582',
+    exercises: [ [Object], [Object] ]
+  },
+  {
+    _id: 5f97da6208a08f045fc2d493,
+    username: 'fcc_test_16037873595',
+    exercises: [ [Object], [Object], [Object] ]
+  },
+  {
+    _id: 5f97daebf1fa0604d02e0b84,
+    username: 'fcc_test_16037874963',
+    exercises: [ [Object] ]
+  }
+]
+saved
+{ username: 'fcc_test_16037874972', _id: 5f97daecf1fa0604d02e0b86 }
+no ID provided, adding to the last one - 5f97daecf1fa0604d02e0b86
+{
+  _id: 5f97daecf1fa0604d02e0b86,
+  username: 'fcc_test_16037874972',
+  description: 'test',
+  duration: 60,
+  date: 1990-01-01T00:00:00.000Z
+}
+saved
+{ username: 'fcc_test_16037874984', _id: 5f97daedf1fa0604d02e0b8b }
+no ID provided, adding to the last one - 5f97daedf1fa0604d02e0b8b
+{
+  _id: 5f97daedf1fa0604d02e0b8b,
+  username: 'fcc_test_16037874984',
+  description: 'test',
+  duration: 60,
+  date: 2020-10-27T08:31:42.475Z
+}
+5f97daedf1fa0604d02e0b8b
+{
+  username: 'fcc_test_16037874984',
+  exercises: [
+    {
+      description: 'short one',
+      duration: 10,
+      _id: 5f97daedf1fa0604d02e0b8c,
+      date: 2020-10-27T08:31:41.725Z
+    },
+    {
+      description: 'test',
+      duration: 60,
+      _id: 5f97daeef1fa0604d02e0b8f,
+      date: 2020-10-27T08:31:42.475Z
+    }
+  ],
+  count: 2
+}
+saved
+{ username: 'fcc_test_16037874999', _id: 5f97daeff1fa0604d02e0b90 }
+no ID provided, adding to the last one - 5f97daeff1fa0604d02e0b90
+{
+  _id: 5f97daeff1fa0604d02e0b90,
+  username: 'fcc_test_16037874999',
+  description: 'test',
+  duration: 60,
+  date: 1990-01-01T00:00:00.000Z
+}
+no ID provided, adding to the last one - 5f97daeff1fa0604d02e0b90
+{
+  _id: 5f97daeff1fa0604d02e0b90,
+  username: 'fcc_test_16037874999',
+  description: 'test',
+  duration: 60,
+  date: 1990-01-02T00:00:00.000Z
+}
+5f97daeff1fa0604d02e0b90
+{
+  username: 'fcc_test_16037874999',
+  exercises: [
+    {
+      description: 'test',
+      duration: 60,
+      _id: 5f97daeff1fa0604d02e0b94,
+      date: 1990-01-01T00:00:00.000Z
+    },
+    {
+      description: 'test',
+      duration: 60,
+      _id: 5f97daf0f1fa0604d02e0b98,
+      date: 1990-01-02T00:00:00.000Z
+    }
+  ],
+  count: 3
+}
