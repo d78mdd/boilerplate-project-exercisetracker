@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
+
+const cors = require('cors')
+
+
 const mongoose = require('mongoose');
 
 
@@ -10,6 +14,10 @@ mongoose.connect(
 	process.env.MLAB_URI,
 	{ useNewUrlParser: true, useUnifiedTopology: true }
 );
+
+
+app.use(cors())
+
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -30,32 +38,32 @@ app.get('/', (req, res) => {
 
 
 //define schema and model
-const myData9Schema = new mongoose.Schema({
-	name: {type: String, default: "anon" },
+const myData10Schema = new mongoose.Schema({
+	username: {type: String, default: "anon" },
   exercises: [{
     description: { type: String, default: "short one" },
     duration: { type: Number, default: 10 },
     date: { type: Date, default: Date.now }
   }]
 });
-const myData9 = mongoose.model('myData9', myData9Schema);
+const myData10 = mongoose.model('myData10', myData10Schema);
 
 
 //some initial output
-/*myData9.find()
-    .select('name _id')
+/*myData10.find()
+    .select('username _id')
     .exec(function(err, data) {
 			console.log(data);
 });*/
 
 
 app.get('/api/exercise/users', function(req, res) {
-	myData9.find(function(err, data) {
+	myData10.find(function(err, data) {
 		let result = []
 		for (let i = 0; i < data.length; i++) {
 			result[i] = {};
 			result[i]._id = data[i]._id;
-			result[i].name = data[i].name;
+			result[i].username = data[i].username;
       result[i].exercises = [...data[i].exercises]
 		}
 		console.log(result);
@@ -67,8 +75,8 @@ app.get('/api/exercise/users', function(req, res) {
 app.post('/api/exercise/new-user', function(req, res) {
 	let result = {};
 
-	const datum1 = new myData9({
-    name: req.body.username || undefined,
+	const datum1 = new myData10({
+    username: req.body.username || undefined,
     exercises: {
       description: undefined,
       duration: undefined,
@@ -80,7 +88,7 @@ app.post('/api/exercise/new-user', function(req, res) {
 		console.log('saved');
 
   // output
-		myData9.find({_id: data._id})
+		myData10.find({_id: data._id})
     .select('-__v -exercises')
     .exec(function(err, data) {
 			console.log(data[0]);
@@ -93,10 +101,10 @@ app.post('/api/exercise/new-user', function(req, res) {
 app.post("/api/exercise/add", function(req, res){
   
   if ( !req.body._id ) {
-    myData9.find(function(err,data){
+    myData10.find(function(err,data){
        
       let lastIndex = data.length-1
-      let lastObject = new myData9(data[lastIndex])
+      let lastObject = new myData10(data[lastIndex])
       
       console.log("no ID provided, adding to the last one -" , lastObject._id)
 
@@ -109,7 +117,7 @@ app.post("/api/exercise/add", function(req, res){
  
   function add(id){
     
-    myData9.findById(id, function(err, data1){
+    myData10.findById(id, function(err, data1){
 
       //console.log(data1)
 
@@ -127,12 +135,16 @@ app.post("/api/exercise/add", function(req, res){
 
       data1.save(function(err, data){
 
-        myData9.find({_id: data1._id})
+        myData10.find({_id: data1._id})
         .exec(function(err, data) {
 
+          let ex = data[0].exercises[data[0].exercises.length-1]  //the last one
           let result = {
-            name: data[0].name,
-            exercises: [data[0].exercises[data[0].exercises.length-1]]  //the last one
+            _id: data[0]._id,
+            username: data[0].username,
+            description: ex.description,
+            duration: ex.duration,
+            date: ex.date
           }
 
           console.log(result)
@@ -149,15 +161,17 @@ app.post("/api/exercise/add", function(req, res){
 })
 
 
-app.post("/api/exercise/log/", function(req, res){
+
+
+app.post("/api/exercise/log/", function(req, res){   //todo1
   
   if (!req.body._id ) {
-    let errMsg = "missing ID" 
+    let errMsg = "missing ID"
 
     console.log(errMsg)
     console.log("existing IDs:")
-    myData9.find()
-    .select('name _id')
+    myData10.find()
+    .select('username _id')
     .exec(function(err, data) {
 			console.log(data);
     })
@@ -166,7 +180,7 @@ app.post("/api/exercise/log/", function(req, res){
 
   } else {
     log()
-    /*myData9.findById(req.body._id)
+    /*myData10.findById(req.body._id)
     .exec(function(err, data){
       console.log(data, err)
     })*/
@@ -174,7 +188,7 @@ app.post("/api/exercise/log/", function(req, res){
 
   function log (){
     
-    myData9.findById(req.body._id)
+    myData10.findById(req.body._id)
     .exec(function(err, data){
 
       if (!data) {
@@ -187,7 +201,7 @@ app.post("/api/exercise/log/", function(req, res){
       //console.log(req.body.from, req.body.to, req.body.limit)
 
       let resultTemp = []
-      let result = []
+      let result = {}
 
       let startD = new Date(req.body.from)
       let endD = new Date(req.body.to)
@@ -195,13 +209,13 @@ app.post("/api/exercise/log/", function(req, res){
       let fromOk  =  startD != "Invalid Date"
       let toOk  =  endD != "Invalid Date"
 
-      let size = data.exercises.length
+      let size = 0
       let limit = Number(req.body.limit)   // make sure it's a number
 
       //console.log(resultTemp , startD, endD, size, limit)
 
       //filter according to 'from' and 'to'
-      for ( let i=0; i<size; i++ ){
+      for ( let i=0; i<data.exercises.length; i++ ){
 
         let date = data.exercises[i].date
         let ex = data.exercises[i]
@@ -223,6 +237,7 @@ app.post("/api/exercise/log/", function(req, res){
         }
         //console.log(data.exercises[i].date - data.exercises[i+1].date)
       }
+      size = resultTemp.length
       //console.log(resultTemp)
 
       //sort ascending
@@ -230,33 +245,186 @@ app.post("/api/exercise/log/", function(req, res){
       //console.log(resultTemp)
 
       //limit from 0th to 'limit'th
+      let resultTemp2 = []
       if ( !!limit ) {    // if valid
         for ( let i=0; i<limit; i++ ){
           resultTemp2.push(resultTemp[i])
         }
+        size = resultTemp2.length
       } else {          // if empty or invalid
         resultTemp2 = [...resultTemp]
       }
 
-      myData9.find({_id: data._id})
-      .select('-_id -__v -exercises._id')
-      .exec(function(err, data) {
+      
 
-        let result = {
-          name: data[0].name,
-          exercises: [...data[0].exercises],
-          count: data[0].exercises.length
+      //myData10.find({_id: data._id})
+      //.select('-_id -__v -exercises._id')
+      //.exec(function(err, data) {
+
+        result = {
+          username: data.username,
+          exercises: [...resultTemp2],
+          count: size
         }
         
         console.log(result)
         res.json(result)
-      })
+      //})
 
     })
   
   }
 
 })
+
+
+app.get("/api/exercise/log/", function(req, res){
+  //https://boilerplate-project-exercisetracker-2.d78mdd.repl.co/api/exercise/log?{userId}[&from][&to][&limit]
+  
+  //https://boilerplate-project-exercisetracker-2.d78mdd.repl.co/api/exercise/log?userId=5f90549c49fad607102d57f4
+  //https://boilerplate-project-exercisetracker-2.d78mdd.repl.co/api/exercise/log?userId=5f90549c49fad607102d57f4&from=2017-01-01&to=2019-12-12
+  console.log(req.query.userId)
+
+  if (!req.query.userId ) {
+    let errMsg = "missing ID"
+
+    console.log(errMsg)
+    console.log("existing IDs:")
+    myData10.find()
+    .select('username _id')
+    .exec(function(err, data) {
+			console.log(data);
+    })
+
+    res.json(errMsg)
+
+  } else {
+    log()
+  }
+
+
+  function log (){
+    
+    myData10.findById(req.query.userId)
+    .exec(function(err, data){
+
+      if (!data) {
+        let errMsg = "invalid ID" 
+        console.log(errMsg)
+        res.json(errMsg)
+        return
+      }
+
+      //console.log(req.query.from, req.query.to, req.query.limit)
+
+      let resultTemp = []
+      let result = []
+
+      let startD = new Date(req.query.from)
+      let endD = new Date(req.query.to)
+
+      let fromOk  =  startD != "Invalid Date"
+      let toOk  =  endD != "Invalid Date"
+
+      let size = 0
+      let limit = Number(req.query.limit)   // make sure it's a number
+
+      //console.log(resultTemp , startD, endD, size, limit)
+      //console.log(fromOk , toOk)
+
+      //filter according to 'from' and 'to'
+      for ( let i=0; i<data.exercises.length; i++ ){
+
+        let date = data.exercises[i].date
+        let ex = data.exercises[i]
+
+        if ( fromOk  &&  !toOk ) {
+          if ( date > startD ) {
+            resultTemp.push(ex)
+          }
+        } else if ( !fromOk  &&  toOk ) { 
+          if ( date < endD ) {
+            resultTemp.push(ex)
+          }
+        } else if ( fromOk  &&  toOk) {
+          if ( date>startD && date<endD ) {
+            resultTemp.push(ex)
+            //console.log(ex)
+          }
+        } else if ( !fromOk  &&  !toOk ) {
+          resultTemp.push(ex)
+        }
+        //console.log (date>startD, date<endD)
+        //console.log(ex)
+        //console.log(data.exercises[i].date - data.exercises[i+1].date)
+      }
+      size = resultTemp.length
+      //console.log(resultTemp)
+
+      //sort ascending
+      resultTemp.sort((a,b)=>a.date-b.date)
+      //console.log(resultTemp)
+
+      //limit from 0th to 'limit'th
+      let resultTemp2 = []
+      if ( !!limit ) {    // if valid
+        for ( let i=0; i<limit; i++ ){
+          resultTemp2.push(resultTemp[i])
+        }
+        size = resultTemp2.length
+      } else {          // if empty or invalid
+        resultTemp2 = [...resultTemp]
+      }
+
+
+      //myData10.find({_id: data._id})
+      //.select('-_id -__v -exercises._id')
+      //.exec(function(err, data) {
+        result = {
+          username: data.username,
+          exercises: [...resultTemp2],
+          count: size
+        }
+        
+        console.log(result)
+        res.json(result)
+      //})
+
+    })
+  
+  }
+
+ 
+})
+
+
+
+
+
+// Not found middleware
+app.use((req, res, next) => {
+  return next({status: 404, message: 'not found'})
+})
+
+// Error Handling middleware
+app.use((err, req, res, next) => {
+  let errCode, errMessage
+
+  if (err.errors) {
+    // mongoose validation error
+    errCode = 400 // bad request
+    const keys = Object.keys(err.errors)
+    // report the first validation error
+    errMessage = err.errors[keys[0]].message
+  } else {
+    // generic or custom error
+    errCode = err.status || 500
+    errMessage = err.message || 'Internal Server Error'
+  }
+  res.status(errCode).type('txt')
+    .send(errMessage)
+})
+
 
 
 const listener = app.listen(process.env.PORT || 3000, () => {
@@ -268,8 +436,8 @@ const listener = app.listen(process.env.PORT || 3000, () => {
 
 /*
   TODO
-  todo1   (assuming "todo1 resides somewhere in the code")
-    ...
+  todo1
+     app.get
   todo2
-    ...
+    make checks for limit, from, to
 */
