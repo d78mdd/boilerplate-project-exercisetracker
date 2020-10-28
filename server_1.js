@@ -43,7 +43,9 @@ const myData10Schema = new mongoose.Schema({
   exercises: [{
     description: { type: String, default: "short one" },
     duration: { type: Number, default: 10 },
-    date: { type: Date, default: Date.now }
+    //date: { type: Date, default: Date.now }   // Date.now()??
+    //date: { type: Date, default: new Date().toDateString() }
+    date: { type: String, default: new Date().toDateString()}
   }]
 });
 const myData10 = mongoose.model('myData10', myData10Schema);
@@ -66,6 +68,7 @@ app.get('/api/exercise/users', function(req, res) {
 		for (let i = 0; i < data.length; i++) {
 			result[i] = {};
 			result[i]._id = data[i]._id;
+      //result[i].userId = data[i]._id;
 			result[i].username = data[i].username;
       result[i].exercises = [...data[i].exercises]
 		}
@@ -98,7 +101,7 @@ app.post('/api/exercise/new-user', function(req, res) {
 		myData10.find({_id: data._id})
     .select('-__v -exercises')
     .exec(function(err, data) {
-			console.log(data[0]);
+      console.log(data[0]);
 		  res.json(data[0]);
 		});
 	});
@@ -136,12 +139,15 @@ app.post("/api/exercise/add", function(req, res){
         duration: req.body.duration || undefined,
       }
       if (req.body.date) {
-        exercise.date = new Date(req.body.date)
+        exercise.date = new Date(req.body.date).toDateString()
       } else {
         exercise.date = undefined
       }
 
       data1.exercises.push(exercise)
+
+      
+        //console.log(data1.exercises)
 
       data1.save(function(err, data){
 
@@ -151,6 +157,7 @@ app.post("/api/exercise/add", function(req, res){
           let ex = data[0].exercises[data[0].exercises.length-1]  //the last one
           let result = {
             _id: data[0]._id,
+            //userId: data[0]._id,
             username: data[0].username,
             description: ex.description,
             duration: ex.duration,
@@ -158,6 +165,7 @@ app.post("/api/exercise/add", function(req, res){
           }
 
           console.log(result)
+          //console.log(req.status, res.status())
           res.json(result)
 
 
@@ -172,7 +180,7 @@ app.post("/api/exercise/add", function(req, res){
 
 
 
-/*
+
 app.post("/api/exercise/log/", function(req, res){
 
   console.log("method: " , req.method)
@@ -197,7 +205,7 @@ app.post("/api/exercise/log/", function(req, res){
     //myData10.findById(req.body._id)
     //.exec(function(err, data){
     //  console.log(data, err)
-    })
+    //)
   }
 
   function log (){
@@ -289,7 +297,7 @@ app.post("/api/exercise/log/", function(req, res){
   
   }
 
-})*/
+})
 
 
 app.get("/api/exercise/log/", function(req, res){
@@ -457,4 +465,7 @@ const listener = app.listen(process.env.PORT || 3000, () => {
 
   todo2
     make checks for limit, from, to
+
+
+  alter my schema adding and _id or userId ??
 */
